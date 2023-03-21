@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33502.453
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P2PdemoApi", "P2PdemoApi\P2PdemoApi.csproj", "{9FD8C221-C9BD-444D-848F-B8D48E6873D9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9FD8C221-C9BD-444D-848F-B8D48E6873D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FD8C221-C9BD-444D-848F-B8D48E6873D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FD8C221-C9BD-444D-848F-B8D48E6873D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FD8C221-C9BD-444D-848F-B8D48E6873D9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E6488777-2C9B-4642-969A-C2F08B1C7CF3}
+	EndGlobalSection
+EndGlobal
