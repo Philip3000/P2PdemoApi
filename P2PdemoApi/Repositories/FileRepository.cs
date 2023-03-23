@@ -7,52 +7,51 @@ namespace P2PdemoApi.Repositories
 {
     public class FileRepository
     {
-        private int _nextId = 1;
-        private readonly List<FileEndPoint> Data;
+        private Dictionary<string, List<FileEndPoint>> Data;
 
         public FileRepository()
         {
-            Data = new List<FileEndPoint>
+            Data = new Dictionary<string, List<FileEndPoint>>();
+        }
+        public List<string> GetFileNames()
+        {
+            return Data.Keys.ToList();
+        }
+        public List<FileEndPoint>? GetAll(string fileName)
+        {
+            if (Data.ContainsKey(fileName))
             {
-                new FileEndPoint {key = _nextId++, IpAddress = "10.200.91.42", PortNumber = 21},
-                new FileEndPoint {key = _nextId++, IpAddress = "10.200.91.42", PortNumber = 21}
-            };
+                return Data[fileName];
+            }
+            return null;
         }
 
-        public List<FileEndPoint> GetAll()
-        {
-            return new List<FileEndPoint>(Data);
-            
-        }
 
-        public FileEndPoint? GetById(int id)
+        public FileEndPoint Add(string fileName, FileEndPoint newFile)
         {
-            return Data.Find(FileEndPoint => FileEndPoint.key == id);
-        }
-
-        public FileEndPoint Add(FileEndPoint newFile)
-        {
-            newFile.key = _nextId++;
-            Data.Add(newFile);
+            if (!Data.ContainsKey(fileName))
+            {
+                Data.Add(fileName, new List<FileEndPoint>());
+            }
+            Data[fileName].Add(newFile);
             return newFile;
         }
 
-        public FileEndPoint? Delete(int id)
+        public FileEndPoint? Delete(string fileName, FileEndPoint fileToBeDeleted)
         {
-            FileEndPoint? file = GetById(id);
-            if (file == null) return null;
-            Data.Remove(file);
-            return file;
-        }
-
-        public FileEndPoint? Update(int id, FileEndPoint updates)
-        {
-            FileEndPoint? file = GetById(id);
-            if (file == null) return null;
-            file.key = updates.key;
-            file.IpAddress = updates.IpAddress;
-            file.PortNumber = updates.PortNumber;
-            return file;
+            if (Data.ContainsKey(fileName))
+            {
+                List<FileEndPoint> list = Data[fileName];
+                foreach (var item in list)
+                {
+                    if (item.ipAddress == fileToBeDeleted.ipAddress && item.Port == fileToBeDeleted.Port)
+                    {
+                        list.Remove(item);
+                    }
+                }
+            }
+            return null;
+            
         }
     }
 }

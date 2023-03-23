@@ -5,9 +5,7 @@ namespace P2PdemoApi.Model
 {
     public class FileEndPoint
     {
-        public string IpAddress { get; set; }
-        public int PortNumber { get; set; }
-        public int key { get; set; }
-
+        public string ipAddress { get; set; }
+        public int Port{ get; set; }
     }
 }

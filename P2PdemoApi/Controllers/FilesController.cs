@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using P2PdemoApi.Model;
 using P2PdemoApi.Repositories;
+using System.Collections.Generic;
 using System.Text.Json;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -16,71 +17,34 @@ namespace P2PdemoApi.Controllers
         {
             _fileRepository = fileRepository;
         }
-        // GET: api/FilesController>
+        // GET: api/<FilesController>
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<IEnumerable<FileEndPoint>> Get()
+        public IEnumerable<string> Get()
         {
-            List<FileEndPoint> files =  _fileRepository.GetAll();
-            if (files == null) return NotFound("Nothing here");
-            string jsonFiles = JsonSerializer.Serialize(files);
-            return Ok(jsonFiles);
+            return _fileRepository.GetFileNames();
         }
 
         // GET api/<FilesController>/5
-        [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<FileEndPoint> Get(int id)
+        [HttpGet("{fileName}")]
+     
+        public List<FileEndPoint> Get(string fileName)
         {
-            FileEndPoint file = _fileRepository.GetById(id);
-            if (file == null) return NotFound("No file with key");
-            string jsonFile = JsonSerializer.Serialize(file);
-            return Ok(jsonFile);
-
+            return _fileRepository.GetAll(fileName);
         }
 
         // POST api/<FilesController>
-        [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<FileEndPoint> Post([FromBody] FileEndPoint value)
+        [HttpPost("{fileName}")]
+        public FileEndPoint Post(string fileName, [FromBody] FileEndPoint newFile)
         {
-            try
-            {
-                FileEndPoint newFile = _fileRepository.Add(value);
-                return Created($"api/Files/{newFile.key}", newFile);
-            }
-            catch (ArgumentNullException n)
-            {
-                return BadRequest(n.Message);
-            }
-            catch (ArgumentOutOfRangeException n)
-            {
-                return BadRequest(n.Message);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        // PUT api/<FilesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
+            return _fileRepository.Add(fileName, newFile);
         }
 
         // DELETE api/<FilesController>/5
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpDelete("{id}")]
-        public ActionResult<FileEndPoint> Delete(int id)
+        
+        [HttpDelete("{fileName}")]
+        public ActionResult<FileEndPoint> Delete(string fileName, FileEndPoint fileToBeDeleted)
         {
-            FileEndPoint fileToDelete = _fileRepository.Delete(id);
-            if (fileToDelete == null) return BadRequest("No id found");
-            return Ok(fileToDelete);
+            return _fileRepository.Delete(fileName, fileToBeDeleted);
         }
     }
 }
